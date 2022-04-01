@@ -1,6 +1,5 @@
 package com.umitclebi.msscbeerservice.domain;
 
-import com.umitclebi.msscbeerservice.web.model.BeerStyleEnum;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -8,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Getter
@@ -30,12 +29,12 @@ public class Beer {
 
     @CreationTimestamp
     @Column(updatable = false)
-    private OffsetDateTime createdTime;
+    private Timestamp createdTime;
 
     @UpdateTimestamp
-    private OffsetDateTime lastModifiedTime;
+    private Timestamp lastModifiedTime;
     private String beerName;
-    private BeerStyleEnum beerStyle;
+    private String beerStyle;
 
     @Column(unique = true)
     private Long upc;
