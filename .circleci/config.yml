@@ -31,5 +31,5 @@ jobs:
             mkdir -p ~/test-results/junit/
             find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
           name: "Save test results"
-          when: "always - asasas - store_test_results path:~/test-results"
+          when: "always - store_test_results path:~/test-results"
 version: 2.1
