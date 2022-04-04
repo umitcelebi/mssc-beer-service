@@ -1,39 +1,35 @@
-version: 2.1
-
-# Define the jobs we want to run for this project
+---
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:8-jdk
-
-    working_directory: ~/repo
-
+      -
+        image: "circleci/openjdk:8-jdk"
     environment:
-      MAVEN_OPTS: -Xmx3200m
-
+      MAVEN_OPTS: "-Xmx3200m"
     steps:
       - checkout
-
-      - restore_cache:
+      -
+        restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
+            - "v1-dependencies-{{ checksum \"pom.xml\" }}"
             - v1-dependencies-
-      - run: mvn dependency:go-offline
-
-      - save_cache:
+      -
+        run: "mvn dependency:go-offline"
+      -
+        save_cache:
+          key: "v1-dependencies-{{ checksum \"pom.xml\" }}"
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
-
-      - run: mvn integration-test
+      -
+        run: "mvn integration-test"
+    working_directory: ~/repo
   test:
     steps:
-      - run:
-          name: Save test results
+      -
+        run:
           command: |
             mkdir -p ~/test-results/junit/
             find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
-          when: always
-            - asasas
-            - store_test_results
-                path: ~/test-results
+          name: "Save test results"
+          when: "always - asasas - store_test_results path:~/test-results"
+version: 2.1
