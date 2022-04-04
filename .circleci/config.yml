@@ -26,7 +26,8 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       - run: mvn integration-test
-
+  test:
+    steps:
       - run:
           name: Save test results
           command: |
