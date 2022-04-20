@@ -1,0 +1,20 @@
+<config
+        xmlns:jsr107='https://ehcache.org/v3/jsr107>'
+        xmlns='https://ehcache.org/v3'>
+    <service>
+        <jsr107:default enable-management="true" enable-statictics="true"/>
+    </service>
+
+    <cache alias="beerCache" uses-template="config-cache"/>
+    <cache alias="beerListCache" uses-template="config-cache"/>
+
+    <cache-template name="config-cache">
+        <expiry>
+            <ttl unit="minutes">5</ttl>
+        </expiry>
+        <resources>
+            <heap>1</heap>
+            <offheap unit="MB">1</offheap>
+        </resources>
+    </cache-template>
+</config>

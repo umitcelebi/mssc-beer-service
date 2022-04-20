@@ -9,6 +9,7 @@ import com.umitclebi.msscbeerservice.web.model.BeerDto;
 import com.umitclebi.msscbeerservice.web.model.BeerPagedList;
 import com.umitclebi.msscbeerservice.web.model.BeerStyleEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class BeerServiceImpl implements BeerService {
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
 
+    @Cacheable(cacheNames = "beerCache",key = "#beerId",condition = "#showInventoryOnHand==false")
     @Override
     public BeerDto getById(UUID beerId,Boolean showInventoryOnHand) {
         if (showInventoryOnHand){
@@ -50,6 +52,7 @@ public class BeerServiceImpl implements BeerService {
         return beerMapper.beerToBeerDto(beerRepository.save(updatedBeer));
     }
 
+    @Cacheable(cacheNames = "beerListCache",condition = "#showInventoryOnHand==false")
     @Override
     public BeerPagedList lisTBeers(String beerName, BeerStyleEnum beerStyleEnum, PageRequest pageRequest, Boolean showInventoryOnHand) {
         BeerPagedList beerPagedList;
